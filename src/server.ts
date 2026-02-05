@@ -17,6 +17,15 @@ app.get('/api/data', (req, res) => {
   res.json(etudiants);
 });
 
+app.get('/api/hello/:name', (req, res) => {
+  const name = req.params.name;
+  const timestamp = new Date().toISOString();
+  res.json({
+    message: `Bonjour ${name}`,
+    timestamp: timestamp
+  });
+});
+
 app.listen(port, () => {
   console.log(`Serveur en écoute sur le port ${port}`);
 });
