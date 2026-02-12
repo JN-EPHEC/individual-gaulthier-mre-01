@@ -14,7 +14,7 @@ const etudiants = [
 app.use(userRoutes);
 
 app.get('/', (req, res) => {
-  res.send('Bienvenue sur mon serveur API');
+  res.send('Bienvenue sur mon serveur');
 });
 
 app.get('/api/data', (req, res) => {
@@ -30,10 +30,8 @@ app.get('/api/hello/:name', (req, res) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`Serveur en écoute sur le port ${port}`);
-});
-
-sequelize.authenticate().then(() => {
-  console.log("Connexion à la base de données réussie");
+sequelize.sync().then(() => {
+  app.listen(port, () => {
+    console.log(`Serveur en écoute sur le port ${port} avec une DB Sqlite3`);
+  });
 });
