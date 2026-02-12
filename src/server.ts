@@ -1,5 +1,6 @@
 import express from 'express';
 import userRoutes from './routes/userRoutes.js';
+import sequelize from './config/database.js';
 
 const app = express();
 const port = 3000;
@@ -31,4 +32,8 @@ app.get('/api/hello/:name', (req, res) => {
 
 app.listen(port, () => {
   console.log(`Serveur en écoute sur le port ${port}`);
+});
+
+sequelize.authenticate().then(() => {
+  console.log("Connexion à la base de données réussie");
 });
