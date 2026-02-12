@@ -1,6 +1,7 @@
 import express from 'express';
 import userRoutes from './routes/userRoutes.js';
 import sequelize from './config/database.js';
+import User from './models/User.js';
 
 const app = express();
 const port = 3000;
@@ -34,4 +35,6 @@ sequelize.sync().then(() => {
   app.listen(port, () => {
     console.log(`Serveur en écoute sur le port ${port} avec une DB Sqlite3`);
   });
+}).catch((err) => {
+  console.error("Erreur de synchronisation:", err);
 });
