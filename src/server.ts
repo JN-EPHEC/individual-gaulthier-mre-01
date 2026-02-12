@@ -6,6 +6,9 @@ import User from './models/User.js';
 const app = express();
 const port = 3000;
 
+app.use(express.json());
+app.use(express.static('public'));
+
 const etudiants = [
   { id: 1, nom: "Dupont", prenom: "Jean" },
   { id: 2, nom: "Martin", prenom: "Sophie" },
