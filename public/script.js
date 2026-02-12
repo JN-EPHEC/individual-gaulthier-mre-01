@@ -29,16 +29,48 @@ function loadUsers() {
 
 document.querySelector('form').addEventListener('submit', (e) => {
   e.preventDefault();
-  const nom = document.getElementById('nom').value;
-  const prenom = document.getElementById('prenom').value;
-  
+
+  const nomInput = document.getElementById('nom');
+  const prenomInput = document.getElementById('prenom');
+  const errorEl = document.getElementById('form-error');
+
+  const nom = nomInput.value.trim();
+  const prenom = prenomInput.value.trim();
+
+  // Réinitialiser message d'erreur
+  if (errorEl) {
+    errorEl.classList.add('hidden');
+  }
+
+  // Validation simple : les deux champs doivent être remplis
+  if (!nom || !prenom) {
+    if (errorEl) {
+      errorEl.textContent = 'Nom et prénom sont obligatoires.';
+      errorEl.classList.remove('hidden');
+    }
+    return;
+  }
+
+  // Validation du format : uniquement lettres (avec accents), apostrophe et tiret
+  const nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ' -]+$/;
+  if (!nameRegex.test(nom) || !nameRegex.test(prenom)) {
+    if (errorEl) {
+      errorEl.textContent = "Seules les lettres (avec accents), l'apostrophe (') et le tiret (-) sont autorisés.";
+      errorEl.classList.remove('hidden');
+    }
+    return;
+  }
+
   fetch('/api/users', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ nom, prenom })
   }).then(() => {
-    document.getElementById('nom').value = '';
-    document.getElementById('prenom').value = '';
+    nomInput.value = '';
+    prenomInput.value = '';
+    if (errorEl) {
+      errorEl.classList.add('hidden');
+    }
     loadUsers();
   });
 });
