@@ -6,8 +6,7 @@
     // "outDir": "./dist",
 
     // Environment Settings
-    // See also https://aka.ms/tsconfig/module
-    "module": "nodenext",
+    // See aussi https://aka.ms/tsconfig/module
     "target": "esnext",
     // For nodejs:
     "lib": ["esnext"],
@@ -39,5 +38,7 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
   }
 }
