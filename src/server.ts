@@ -1,9 +1,11 @@
 import express from "express";
+import swaggerUi from "swagger-ui-express";
 import userRoutes from "./routes/userRoutes.js";
 import { requestLogger } from "./middlewares/logger.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import sequelize from "./config/database.js";
 import User from "./models/User.js";
+import { swaggerSpec } from "./config/swagger.js";
 
 const app = express();
 const port = 3000;
@@ -11,6 +13,7 @@ const port = 3000;
 app.use(express.json());
 app.use(requestLogger);
 app.use(express.static("public"));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(userRoutes);
 
