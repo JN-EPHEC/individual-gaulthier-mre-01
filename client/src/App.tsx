@@ -1,35 +1,65 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+interface User {
+  id: number;
+  nom: string;
+  prenom: string;
+  role: string;
+  isActive: boolean;
 }
 
-export default App
+function App() {
+  const [users, setUsers] = useState<User[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/api/users")
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Erreur HTTP ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((result: User[]) => {
+        setUsers(result);
+        setError(null);
+      })
+      .catch((err: unknown) => {
+        console.error(err);
+        setError("Impossible de récupérer les utilisateurs.");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <p>Chargement des utilisateurs...</p>;
+  }
+
+  if (error) {
+    return <p style={{ color: "red" }}>{error}</p>;
+  }
+
+  return (
+    <div className="App">
+      <h1>Liste des utilisateurs</h1>
+      {users.length === 0 ? (
+        <p>Aucun utilisateur trouvé.</p>
+      ) : (
+        <ul>
+          {users.map((user) => (
+            <li key={user.id}>
+              {user.prenom} {user.nom} — {user.role}{" "}
+              {user.isActive ? "(actif)" : "(inactif)"}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+export default App;
