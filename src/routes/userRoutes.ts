@@ -1,5 +1,6 @@
 import express from "express";
 import * as userController from "../controllers/userController.js";
+import { checkIdParam } from "../middlewares/checkIdParam.js";
 
 const router = express.Router();
 
@@ -11,7 +12,9 @@ const router = express.Router();
  *     tags: [Users]
  *     responses:
  *       200:
- *         description: Succès
+ *         description: Liste des utilisateurs récupérée avec succès
+ *       500:
+ *         description: Erreur serveur interne
  */
 router.get("/api/users", userController.getAllUsers);
 
@@ -23,7 +26,9 @@ router.get("/api/users", userController.getAllUsers);
  *     tags: [Users]
  *     responses:
  *       200:
- *         description: Succès
+ *         description: Liste des utilisateurs actifs récupérée avec succès
+ *       500:
+ *         description: Erreur serveur interne
  */
 router.get("/api/users/active", userController.getActiveUsers);
 
@@ -52,6 +57,8 @@ router.get("/api/users/active", userController.getActiveUsers);
  *         description: Utilisateur créé
  *       400:
  *         description: Données invalides
+ *       500:
+ *         description: Erreur serveur interne
  */
 router.post("/api/users", userController.createUserController);
 
@@ -74,8 +81,10 @@ router.post("/api/users", userController.createUserController);
  *         description: Identifiant invalide
  *       404:
  *         description: Utilisateur non trouvé
+ *       500:
+ *         description: Erreur serveur interne
  */
-router.patch("/api/users/:id/toggle-active", userController.toggleUserActive);
+router.patch("/api/users/:id/toggle-active", checkIdParam, userController.toggleUserActive);
 
 /**
  * @swagger
@@ -96,7 +105,9 @@ router.patch("/api/users/:id/toggle-active", userController.toggleUserActive);
  *         description: Identifiant invalide
  *       404:
  *         description: Utilisateur non trouvé
+ *       500:
+ *         description: Erreur serveur interne
  */
-router.delete("/api/users/:id", userController.deleteUserController);
+router.delete("/api/users/:id", checkIdParam, userController.deleteUserController);
 
 export default router;
