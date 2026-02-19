@@ -1,6 +1,7 @@
 import express from "express";
 import userRoutes from "./routes/userRoutes.js";
 import { requestLogger } from "./middlewares/logger.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
 import sequelize from "./config/database.js";
 import User from "./models/User.js";
 
@@ -16,6 +17,8 @@ app.use(userRoutes);
 app.get("/", (_req, res) => {
   res.send("Bienvenue sur mon serveur");
 });
+
+app.use(errorHandler);
 
 async function seedInitialUsers() {
   const count = await User.count();
