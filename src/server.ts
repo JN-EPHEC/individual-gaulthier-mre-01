@@ -1,5 +1,6 @@
 import express from "express";
 import userRoutes from "./routes/userRoutes.js";
+import { requestLogger } from "./middlewares/logger.js";
 import sequelize from "./config/database.js";
 import User from "./models/User.js";
 
@@ -7,6 +8,7 @@ const app = express();
 const port = 3000;
 
 app.use(express.json());
+app.use(requestLogger);
 app.use(express.static("public"));
 
 app.use(userRoutes);
