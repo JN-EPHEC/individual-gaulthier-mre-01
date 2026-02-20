@@ -82,7 +82,7 @@ document.querySelector('form').addEventListener('submit', (e) => {
   const nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ' -]+$/;
   if (!nameRegex.test(nom) || !nameRegex.test(prenom)) {
     if (errorEl) {
-      errorEl.textContent = "Seules les lettres (avec accents), l'apostrophe (') et le tiret (-) sont autorisés.";
+      errorEl.textContent = "Seules les lettres (avec ou sans accents), l'apostrophe (') et le tiret du 6 (-) sont autorisés.";
       errorEl.classList.remove('hidden');
     }
     return;
