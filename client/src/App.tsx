@@ -28,7 +28,7 @@ function App() {
       })
       .catch((err: unknown) => {
         console.error(err);
-        setError("Impossible de récupérer les utilisateurs.");
+        setError("Impossible de récupérer la BDD des users.");
       })
       .finally(() => {
         setLoading(false);
@@ -36,7 +36,7 @@ function App() {
   }, []);
 
   if (loading) {
-    return <p>Chargement des utilisateurs...</p>;
+    return <p>Chargement des différents users...</p>;
   }
 
   if (error) {
@@ -45,9 +45,9 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Liste des utilisateurs</h1>
+      <h1>Liste des users</h1>
       {users.length === 0 ? (
-        <p>Aucun utilisateur trouvé.</p>
+        <p>Aucun users trouvé.</p>
       ) : (
         <ul>
           {users.map((user) => (
