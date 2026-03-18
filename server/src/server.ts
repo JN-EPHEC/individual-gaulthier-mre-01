@@ -9,7 +9,7 @@ import User from "./models/User.js";
 import { swaggerSpec } from "./config/swagger.js";
 
 const app = express();
-const port = 3000;
+const port = Number(process.env.PORT ?? 3000);
 
 app.use(express.json());
 app.use(cors());
@@ -41,15 +41,14 @@ async function seedInitialUsers() {
   console.log("Utilisateurs de démonstration insérés en base.");
 }
 
-sequelize
-  .sync({ alter: true })
-  .then(async () => {
-    await seedInitialUsers();
+try {
+  await sequelize.authenticate();
+  await seedInitialUsers();
 
-    app.listen(port, () => {
-      console.log(`Serveur en écoute sur le port ${port} avec une DB Sqlite3`);
-    });
-  })
-  .catch((err) => {
-    console.error("Erreur de synchronisation:", err);
+  app.listen(port, () => {
+    console.log(`Serveur en écoute sur le port ${port}`);
   });
+} catch (err) {
+  console.error("Erreur de connexion à la base de données:", err);
+  process.exitCode = 1;
+}

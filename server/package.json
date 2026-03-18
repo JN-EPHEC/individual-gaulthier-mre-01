@@ -5,9 +5,10 @@
   "description": "backend_TP01",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsx watch src/server.ts",
-    "dev": "npm run start"
+    "test": "npm run build && node --test \"dist/**/*.test.js\"",
+    "build": "tsc",
+    "start": "node --dns-result-order=ipv4first dist/server.js",
+    "dev": "tsx watch src/server.ts"
   },
   "author": "",
   "license": "ISC",
