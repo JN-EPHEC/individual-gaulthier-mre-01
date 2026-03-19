@@ -19,7 +19,8 @@ jobs:
       - name: Install dependencies and Build
         run: |
           npm install
-          npm run build
+          # Force build-time API URL (Vite reads VITE_* variables from env at build)
+          VITE_API_URL="http://${{ secrets.SERVER_IP }}:3000/api" npm run build
         working-directory: ./client
 
       - name: Deploy to VPS via SCP
