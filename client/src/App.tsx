@@ -15,7 +15,7 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/users")
+    fetch(`${import.meta.env.VITE_API_URL}/users`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Erreur HTTP ${res.status}`);
