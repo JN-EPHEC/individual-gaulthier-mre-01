@@ -47,6 +47,10 @@ async function seedInitialUsers() {
 
 try {
   await sequelize.authenticate();
+  
+  // Créer les tables s'il n'existent pas
+  await sequelize.sync();
+  
   await seedInitialUsers();
 
   app.listen(port, () => {
