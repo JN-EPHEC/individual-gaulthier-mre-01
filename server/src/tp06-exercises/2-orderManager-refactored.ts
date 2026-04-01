@@ -342,7 +342,7 @@ const createOrderDTO: CreateOrderDTO = {
   customerId: 1,
   customerName: "John Doe",
   customerEmail: "john@example.com",
-  customerCredit: 500,
+  customerCredit: 1000, // Suffisant pour couvrir la commande
   items: [
     { name: "Laptop", price: 800, quantity: 1 },
     { name: "Mouse", price: 30, quantity: 2 },
