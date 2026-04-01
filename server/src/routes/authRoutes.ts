@@ -65,10 +65,12 @@ const digestAuth = auth.digest({
  */
 router.get(
   "/api/admin/digest",
-  (auth as any).connect(digestAuth),
+  (req: Request, res: Response, next: NextFunction) => {
+    digestAuth(req, res, next);
+  },
   (req: Request, res: Response) => {
     res.status(200).json({
-      message: `✅ Bienvenue dans la zone Digest Auth, ${req.user}!`,
+      message: `✅ Bienvenue dans la zone Digest Auth!`,
     });
   }
 );

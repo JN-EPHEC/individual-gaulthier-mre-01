@@ -8,6 +8,8 @@
  * 4. Aucune duplication de code
  */
 
+import console from "console";
+
 // ============================================
 // INTERFACES & TYPES
 // ============================================

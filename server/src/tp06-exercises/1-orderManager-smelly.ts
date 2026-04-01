@@ -8,6 +8,8 @@
  * 4. Duplication de code - Les logs et validations se répètent
  */
 
+import console from "console";
+
 // Simule une "base de données"
 const ordersDatabase: Record<number, Order> = {};
 const customersDatabase: Record<number, Customer> = {};
