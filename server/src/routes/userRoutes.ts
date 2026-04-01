@@ -1,6 +1,7 @@
 import express from "express";
 import * as userController from "../controllers/userController.js";
 import { checkIdParam } from "../middlewares/checkIdParam.js";
+import { asyncHandler } from "../middlewares/asyncErrorHandler.js";
 
 const router = express.Router();
 
@@ -16,7 +17,7 @@ const router = express.Router();
  *       500:
  *         description: Erreur serveur interne
  */
-router.get("/api/users", userController.getAllUsers);
+router.get("/api/users", asyncHandler(userController.getAllUsers));
 
 /**
  * @swagger
@@ -30,7 +31,7 @@ router.get("/api/users", userController.getAllUsers);
  *       500:
  *         description: Erreur serveur interne
  */
-router.get("/api/users/active", userController.getActiveUsers);
+router.get("/api/users/active", asyncHandler(userController.getActiveUsers));
 
 /**
  * @swagger
@@ -60,7 +61,7 @@ router.get("/api/users/active", userController.getActiveUsers);
  *       500:
  *         description: Erreur serveur interne
  */
-router.post("/api/users", userController.createUserController);
+router.post("/api/users", asyncHandler(userController.createUserController));
 
 /**
  * @swagger
@@ -84,7 +85,7 @@ router.post("/api/users", userController.createUserController);
  *       500:
  *         description: Erreur serveur interne
  */
-router.patch("/api/users/:id/toggle-active", checkIdParam, userController.toggleUserActive);
+router.patch("/api/users/:id/toggle-active", checkIdParam, asyncHandler(userController.toggleUserActive));
 
 /**
  * @swagger
@@ -108,6 +109,6 @@ router.patch("/api/users/:id/toggle-active", checkIdParam, userController.toggle
  *       500:
  *         description: Erreur serveur interne
  */
-router.delete("/api/users/:id", checkIdParam, userController.deleteUserController);
+router.delete("/api/users/:id", checkIdParam, asyncHandler(userController.deleteUserController));
 
 export default router;
