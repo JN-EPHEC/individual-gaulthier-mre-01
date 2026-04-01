@@ -49,6 +49,12 @@ const digestAuth = auth.digest({
   file: path.join(__dirname, "../../users.htdigest"),
 });
 
+// Créer un vrai middleware Express à partir du digestAuth de http-auth
+const digestMiddleware: any = (req: Request, res: Response, next: NextFunction) => {
+  // digest auth est une fonction qui peut être appelée directement
+  return (digestAuth as any)(req, res, next);
+};
+
 /**
  * @swagger
  * /api/admin/digest:
@@ -65,7 +71,7 @@ const digestAuth = auth.digest({
  */
 router.get(
   "/api/admin/digest",
-  digestAuth as any,
+  digestMiddleware,
   (req: Request, res: Response) => {
     res.status(200).json({
       message: `✅ Bienvenue dans la zone Digest Auth!`,
