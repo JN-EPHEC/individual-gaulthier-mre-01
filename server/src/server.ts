@@ -1,7 +1,9 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import swaggerUi from "swagger-ui-express";
 import userRoutes from "./routes/userRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 import { requestLogger } from "./middlewares/logger.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import sequelize from "./config/database.js";
@@ -12,11 +14,13 @@ const app = express();
 const port = Number(process.env.PORT ?? 3000);
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors());
 app.use(requestLogger);
 app.use(express.static("public"));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+app.use(authRoutes);
 app.use(userRoutes);
 
 app.get("/", (_req, res) => {
